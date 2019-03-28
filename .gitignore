@@ -1,0 +1,28 @@
+# production
+target
+/.project
+/public
+/public/client/build
+/RUNNING_PID
+
+# ide
+/.idea
+/.idea_modules
+/.classpath
+/.settings
+*.vscode
+*.iml
+
+# dependencies
+/*/bin/
+
+# testing
+/coverage
+
+# logging
+logs
+*.log
+
+# misc
+.DS_Store
+
