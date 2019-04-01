@@ -17,10 +17,10 @@ class DriveControllerSpec extends PlaySpec with GuiceOneAppPerTest with Injectin
 
     "fetch json content from Google Drive API" in {
       val controller = new DriveController(stubControllerComponents())
-      val getAllRecords = controller.getAllRecords.apply(FakeRequest(GET, "/api/"))
+      val getAllRecords = controller.getAllRecords.apply(FakeRequest(GET, "/api/getAllRecords"))
 
-      status() mustBe OK
-      contentType() mustBe Some("text/html")
+      status(getAllRecords) mustBe OK
+      contentType(getAllRecords) mustBe Some("application/json")
     }
 
 //    "render the index page from the application" in {
