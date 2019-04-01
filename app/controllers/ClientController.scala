@@ -14,9 +14,13 @@ import play.api.mvc._
 @Singleton
 class ClientController @Inject()(assets: Assets, errorHandler: HttpErrorHandler, config: Configuration, cc: ControllerComponents) extends AbstractController(cc) {
 
-  def index: Action[AnyContent] = assets.at("index.html")
+  def index: Action[AnyContent] = {
+    println("assets")
+    assets.at("index.html")
+  }
 
   def assetOrDefault(resource: String): Action[AnyContent] = if (resource.startsWith(config.get[String]("apiPrefix"))){
+    println("API branch")
     Action.async(r => errorHandler.onClientError(r, NOT_FOUND, "Not found"))
   } else {
     if (resource.contains(".")) assets.at(resource) else index

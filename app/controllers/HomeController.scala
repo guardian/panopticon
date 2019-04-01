@@ -19,6 +19,7 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
    */
 
   def appSummary = Action {
+    println("Home Controller")
     Ok("Scala Play React TS Starter")
   }
 }
