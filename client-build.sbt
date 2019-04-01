@@ -45,7 +45,7 @@ def executeProdBuild(implicit dir: File): Int = ifNodeModulesInstalled(runOnComm
 lazy val `client-test` = taskKey[Unit]("Run client tests when testing application.")
 
 `client-test` := {
-  implicit val userInterfaceRoot = baseDirectory.value / " client"
+  implicit val userInterfaceRoot = baseDirectory.value / "client"
   if (executeClientTests != Success) throw new Exception("Client tests failed!")
 }
 

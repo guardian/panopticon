@@ -12,3 +12,6 @@ GET     /api/summary         controllers.HomeController.appSummary
 # Map static resources from the /public folder to the /assets URL path
 GET     /*file               controllers.ClientController.assetOrDefault(file)
 
+# Google drive API routes
+GET     /api/getAllRecords  controllers.DriveController.getAllRecords
+
