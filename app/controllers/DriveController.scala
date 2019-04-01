@@ -1,17 +1,17 @@
 package controllers
 
 import javax.inject._
-import play.api.libs.ws.WSClient
 import play.api.mvc._
+import services.DriveService
 
-import scala.concurrent.{ExecutionContext}
+import scala.concurrent.ExecutionContext
 
 /**
   * This controller creates an `Action` to handle HTTP requests to the
   * application's home page.
   */
 @Singleton
-class DriveController @Inject()(cc: ControllerComponents, ws: WSClient)(implicit ec: ExecutionContext) extends AbstractController(cc) {
+class DriveController @Inject()(cc: ControllerComponents)(implicit ec: ExecutionContext) extends AbstractController(cc) {
 
     /**
       * Create an Action to render an HTML page.
@@ -23,12 +23,7 @@ class DriveController @Inject()(cc: ControllerComponents, ws: WSClient)(implicit
 
     val url = "https://www.googleapis.com/drive/v3/teamdrives/0AEc1auC83s1rUk9PVA"
 
-    def getAllRecords = Action.async {
-        ws.url(url)
-            .addHttpHeaders("Content-Type" -> "application/json")
-            .get()
-            .map { response =>
-            Ok(response.body)
-        }(ec)
+    def getAllRecords {
+        DriveService.getAllRecords
     }
 }
