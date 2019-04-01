@@ -2,8 +2,9 @@ package controllers
 
 import org.scalatestplus.play._
 import org.scalatestplus.play.guice._
-import play.api.test._
+import play.api.test.WsTestClient
 import play.api.test.Helpers._
+import play.api.test._
 
 /**
  * Add your spec here.
@@ -14,15 +15,16 @@ import play.api.test.Helpers._
 class DriveControllerSpec extends PlaySpec with GuiceOneAppPerTest with Injecting {
 
   "DriveController getAllRecords" should {
+//
+//    "fetch json content from Google Drive API" in {
+//      val controller = new DriveController(stubControllerComponents())
+//      val getAllRecords = controller.getAllRecords.apply(FakeRequest(GET, "/api/getAllRecords"))
+//
+//      status(getAllRecords) mustBe OK
+//      contentType(getAllRecords) mustBe Some("application/json")
+//    }
 
-    "fetch json content from Google Drive API" in {
-      val controller = new DriveController(stubControllerComponents())
-      val getAllRecords = controller.getAllRecords.apply(FakeRequest(GET, "/api/getAllRecords"))
-
-      status(getAllRecords) mustBe OK
-      contentType(getAllRecords) mustBe Some("application/json")
-    }
-
+//     SAMPLE TEST CODE
 //    "render the index page from the application" in {
 //      val controller = inject[HomeController]
 //      val home = controller.index().apply(FakeRequest(GET, "/"))
