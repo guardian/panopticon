@@ -5,6 +5,9 @@ target
 /public/client/build
 /RUNNING_PID
 
+# secrets
+*.p12.json
+
 # ide
 /.idea
 /.idea_modules

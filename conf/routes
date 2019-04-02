@@ -6,12 +6,8 @@
 # Serve index page from public directory
 GET     /                    controllers.ClientController.index()
 
-# An example route (Prefix all API routes with apiPrefix defined in application.conf)
-GET     /api/summary         controllers.HomeController.appSummary
-
-# Map static resources from the /public folder to the /assets URL path
-GET     /*file               controllers.ClientController.assetOrDefault(file)
-
 # Google drive API routes
-GET     /api/getAllRecords  controllers.DriveController.getAllRecords
+GET     /api/getAllRecords   controllers.DriveController.getAllRecords
 
+# Map static resources1 from the /public folder to the /assets URL path
+GET     /*file               controllers.ClientController.assetOrDefault(file)
