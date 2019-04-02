@@ -1,9 +1,9 @@
 package controllers
 
 import javax.inject._
+import play.api.libs.json.{Json}
 import play.api.mvc._
-import services.DriveService
-
+import services.{DriveService, FileList}
 import scala.concurrent.ExecutionContext
 
 /**
@@ -23,7 +23,10 @@ class DriveController @Inject()(cc: ControllerComponents)(implicit ec: Execution
 
     val url = "https://www.googleapis.com/drive/v3/teamdrives/0AEc1auC83s1rUk9PVA"
 
-    def getAllRecords {
-        DriveService.getAllRecords
+    def getAllRecords = Action {
+        println(DriveService.getAllRecords)
+//        Ok(DriveService.getAllRecords)
+        val fileList = FileList(fileList = List())
+        Ok(Json.toJson(fileList))
     }
 }
