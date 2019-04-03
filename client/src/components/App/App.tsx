@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import styles from "./App.module.css";
 import Table from "../Table/Table";
-import { getAllRecords, DriveFileList } from "../../services/getAllRecords";
+import { getAllRecords } from "../../services/getAllRecords";
+import { DriveFileList } from "../../types/DriveModel"
 
 interface IAppState {
   driveFileList: DriveFileList | null

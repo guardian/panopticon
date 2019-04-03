@@ -1,12 +1,5 @@
 import fetch from "node-fetch";
-
-interface IDriveFile {
-  id: string;
-  title: string;
-  output: string;
-}
-
-export type DriveFileList = Array<IDriveFile>;
+import { DriveFileList } from "../types/DriveModel"
 
 const baseURL = "http://localhost:3000";
 
