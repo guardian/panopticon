@@ -1,0 +1,31 @@
+/* All variables need to be updated - these are just examples from Laundrette */
+:root {
+  /* Spacing */
+  --sp-small: 4px;
+  --sp-base: 10px;
+  --sp-vertical: calc(var(--sp-base) / 1.33);
+
+  --size-vertical-base: calc(1.4rem + calc(var(--sp-vertical) * 2));
+  --size-header: calc(var(--size-vertical-base) * 1.66);
+  --size-match: calc(var(--size-vertical-base) / 2);
+
+  /* Radii */
+  --radius-default: 3px;
+
+  /* Shadows */
+  --sh-normal: 0 2px 2px 0px rgba(0, 0, 0, 0.1);
+  --sh-border: inset 0 0 0 1px var(--color-border);
+  --sh-card: var(--sh-normal), var(--sh-border);
+
+  /* Fonts */
+  --ff-title: Monaco;
+  --ff-text: system-ui;
+  --ff-serif-text: "CMU Concrete";
+
+  --fs-tiny: 0.75rem;
+  --fs-small: 0.9rem;
+  --fs-normal: 1rem;
+  --fs-large: 1.25rem;
+  --fs-massive: 1.75rem;
+  --fs-text-input: 16px;
+}
