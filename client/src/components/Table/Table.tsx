@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import styles from "./Table.module.css";
+import { DriveFileList } from "../../types/DriveModel";
 
-interface ITableProps {}
+interface ITableProps {
+  researchRecords: DriveFileList
+}
+
 interface ITableState {
   rowData: Array<IRowProps>;
 }
@@ -17,17 +21,7 @@ const Row = ({ title, output }: IRowProps) => (
   </tr>
 );
 
-class Table extends Component<ITableProps, ITableState> {
-  constructor(props: ITableProps) {
-    super(props);
-    this.state = {
-      rowData: [
-        { title: "title1", output: "output1" },
-        { title: "title2", output: "output2" },
-        { title: "title3", output: "output3" }
-      ]
-    };
-  }
+class Table extends Component<ITableProps, {}> {
 
   render() {
     return (
@@ -39,9 +33,9 @@ class Table extends Component<ITableProps, ITableState> {
           </tr>
         </thead>
         <tbody>
-          {this.state.rowData.map(row => (
+          {this.props.researchRecords ? this.props.researchRecords.map(row => (
             <Row key={row.title} title={row.title} output={row.output} />
-          ))}
+          )) : null}
         </tbody>
       </table>
     );
