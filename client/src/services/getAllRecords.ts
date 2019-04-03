@@ -1,4 +1,4 @@
-import "node-fetch";
+import fetch from "node-fetch";
 // import { DriveFileList } from "../types/driveAPI";
 
 interface IDriveFile {
@@ -9,16 +9,16 @@ interface IDriveFile {
 
 type DriveFileList = Array<IDriveFile>;
 
-const baseURL = "http://localhost:9000";
+const baseURL = "http://localhost:3000";
 
 async function getAllRecords(): Promise<DriveFileList> {
-  return fetch(`${baseURL}/api/getAllRecords`, {
+  console.log("inside get all records");
+  const response = fetch(`${baseURL}/api/getAllRecords`, {
     method: "get",
-    // headers: { 'Content-Type': 'application/json' },
     credentials: "same-origin"
-  })
-    .then(res => res.json())
-    .then(json => json);
+  });
+  const jsonData = await response.json();
+  return jsonData;
 }
 
 export { getAllRecords };

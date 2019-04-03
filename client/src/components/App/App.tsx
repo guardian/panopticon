@@ -5,7 +5,8 @@ import { getAllRecords } from "../../services/getAllRecords";
 
 class App extends Component {
   componentDidMount() {
-    getAllRecords();
+    const data = getAllRecords().resolve();
+    console.log("data:", data);
   }
   render() {
     return (
