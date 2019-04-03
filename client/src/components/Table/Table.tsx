@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styles from "./Table.module.css";
 
-interface ITableProps {}
+interface ITableProps { }
 interface ITableState {
   rowData: Array<IRowProps>;
 }

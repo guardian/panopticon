@@ -1,13 +1,28 @@
 import React, { Component } from "react";
 import styles from "./App.module.css";
 import Table from "../Table/Table";
-import { getAllRecords } from "../../services/getAllRecords";
+import { getAllRecords, DriveFileList } from "../../services/getAllRecords";
 
-class App extends Component {
-  componentDidMount() {
-    const data = getAllRecords().resolve();
-    console.log("data:", data);
+interface IAppState {
+  driveFileList: DriveFileList | null
+}
+
+class App extends Component<{}, IAppState> {
+  constructor(props: {}) {
+    super(props);
+    this.state = {
+      driveFileList: null
+    }
   }
+
+  componentDidMount() {
+    getAllRecords().then(value => {
+      this.setState((state: IAppState): IAppState => {
+        return { driveFileList: value };
+      });
+    });
+  }
+
   render() {
     return (
       <div className={styles.app}>
