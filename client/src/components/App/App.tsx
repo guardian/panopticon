@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import styles from "./App.module.css";
 import Table from "../Table/Table";
+import { getAllRecords } from "../../services/getAllRecords";
 
 class App extends Component {
+  componentDidMount() {
+    getAllRecords();
+  }
   render() {
     return (
       <div className={styles.app}>
