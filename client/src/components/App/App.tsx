@@ -26,10 +26,8 @@ class App extends Component<{}, IAppState> {
 
   render() {
     return (
-      <div className={styles.app}>
-        <header className={styles.header}>
-          <Table researchRecords={this.state.driveFileList} />
-        </header>
+      <div>
+        <Table researchRecords={this.state.driveFileList} />
       </div>
     );
   }
