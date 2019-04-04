@@ -9,6 +9,7 @@ import com.google.api.services.drive.{DriveScopes, Drive => DriveClient}
 import models.File
 
 import scala.collection.JavaConverters._
+import scala.util.Try
 
 
 object DriveService {
@@ -33,7 +34,19 @@ object DriveService {
             .setTeamDriveId(Config.teamDriveId)
 
         request.execute().getFiles.asScala.toList
-            .map(file => File(id = file.getId, title = file.getName, output = file.getMimeType))
+            .map(file => {
+
+                val customProps = Try {
+                    file.getProperties.asScala.toMap
+                }.toOption.getOrElse(Map.empty)
+
+                File(
+                    id = file.getId,
+                    title = file.getName,
+                    output = file.getMimeType,
+                    customProperties = customProps
+                )
+            })
     }
 }
 
