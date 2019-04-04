@@ -54,8 +54,8 @@ object DriveService {
     )
   }
 
-  def convertoToPreview(str: String): String = {
-
+  def convertToPreview(str: String) = {
+    str.replaceAll("edit", "preview")
   }
 
 
@@ -88,11 +88,11 @@ object DriveService {
       title = file.title,
       team = file.customProperties.getOrElse("team", ""),
       output = getOutputType(file.output),
-      outputUrl = convertoToPreview(file.outputPreview),
+      outputUrl = convertToPreview(file.outputPreview),
       outputThumbnail = file.outputThumbnail,
       okr = file.customProperties.getOrElse("okr", ""),
       year = file.customProperties.getOrElse("year", "0").toInt,
-      quarter = getQuarter(file.customProperties("quarter")),
+      quarter = getQuarter("quarter"),
       tags = List("testtag")
     )
   }
