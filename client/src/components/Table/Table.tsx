@@ -6,9 +6,6 @@ interface ITableProps {
   researchRecords: DriveFileList
 }
 
-interface ITableState {
-  rowData: Array<IRowProps>;
-}
 interface IRowProps {
   title: string;
   output: string;
@@ -35,7 +32,7 @@ class Table extends Component<ITableProps, {}> {
 
   render() {
     return (
-      <table>
+      <table className={styles.table}>
         <thead>
           <tr>
             <th>Title</th>
