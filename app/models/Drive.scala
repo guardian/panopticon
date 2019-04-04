@@ -2,7 +2,7 @@ package models
 
 import play.api.libs.json.{Format, Json}
 
-case class File(
+case class DriveFile(
   id: String,
   title: String,
   output: String,
@@ -13,12 +13,12 @@ case class File(
   customProperties: Map[String, String]
 ) {}
 
-object File {
-  implicit val format: Format[File] = Json.format
+object DriveFile {
+  implicit val format: Format[DriveFile] = Json.format
 }
 
-case class FileList(fileList: List[File]) {}
+case class RawFileList(fileList: List[DriveFile]) {}
 
-object FileList {
-  implicit val format: Format[FileList] = Json.format
+object RawFileList {
+  implicit val format: Format[RawFileList] = Json.format
 }
