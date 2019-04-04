@@ -14,39 +14,54 @@ import scala.util.Try
 
 object DriveService {
 
-    private val httpTransport = new NetHttpTransport()
-    private val jacksonFactory = new JacksonFactory()
-    private val filePath = new FileInputStream(Config.serviceAccountKey)
+  private val httpTransport = new NetHttpTransport()
+  private val jacksonFactory = new JacksonFactory()
+  private val filePath = new FileInputStream(Config.serviceAccountKey)
 
-    private val credential: GoogleCredential = GoogleCredential.fromStream(filePath)
+  private val credential: GoogleCredential = GoogleCredential.fromStream(filePath)
 
-    private val scopedCredential = credential.createScoped(List(DriveScopes.DRIVE_READONLY).asJava)
+  private val scopedCredential = credential.createScoped(List(DriveScopes.DRIVE_READONLY).asJava)
 
-    lazy val driveClient: DriveClient = new DriveClient.Builder(httpTransport, jacksonFactory, scopedCredential)
-        .build()
+  lazy val driveClient: DriveClient = new DriveClient.Builder(httpTransport, jacksonFactory, scopedCredential)
+    .build()
 
-    def getAllRecords = {
-        val request = driveClient.files().list()
-            .setCorpora("teamDrive")
-            .setIncludeTeamDriveItems(true)
-            .setSupportsTeamDrives(true)
-            .setFields("*")
-            .setTeamDriveId(Config.teamDriveId)
+  def getAllRecords = {
+    val request = driveClient.files().list()
+      .setCorpora("teamDrive")
+      .setIncludeTeamDriveItems(true)
+      .setSupportsTeamDrives(true)
+      .setFields("*")
+      .setTeamDriveId(Config.teamDriveId)
 
-        request.execute().getFiles.asScala.toList
-            .map(file => {
+    request.execute().getFiles.asScala.toList
+      .map(file => { // extract this into a pure function we can test
 
-                val customProps = Try {
-                    file.getProperties.asScala.toMap
-                }.toOption.getOrElse(Map.empty)
+        // raw model file
+        // function transforms
+        // output target models
 
-                File(
-                    id = file.getId,
-                    title = file.getName,
-                    output = file.getMimeType,
-                    customProperties = customProps
-                )
-            })
-    }
+        // The inline Try will handle nulls returned from Java library
+        val customProps = Try {
+          file.getProperties.asScala.toMap
+        }.toOption.getOrElse(Map.empty)
+        val thumbnailLink = Try {
+          file.getThumbnailLink
+        }.toOption.getOrElse("")
+        val exportLinks = Try {
+          file.getExportLinks.asScala.toMap
+        }.toOption.getOrElse(Map.empty)
+
+        File(
+          id = file.getId,
+          title = file.getName,
+          output = file.getMimeType,
+          outputPreview = file.getWebViewLink, // TODO - returning editable links - need to process to preview
+          outputDownload = file.getWebContentLink, // TODO - returning nulls
+          outputThumbnail = thumbnailLink, // TODO - returning 404s
+          exportLinks = exportLinks,
+          customProperties = customProps
+        )
+      })
+  }
 }
 
