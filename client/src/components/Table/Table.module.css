@@ -1,6 +1,9 @@
+.table {
+    display: flex;
+}
+
 table {  
     color: #333;
-    min-height: 100vh; 
     border-collapse: collapse; 
     border-spacing: 0; 
     margin: 50px;
@@ -16,6 +19,10 @@ td, th {
 th {  
     background: #DFDFDF;  /* Darken header a bit */
     font-weight: bold;
+}
+
+thead {
+    white-space: nowrap;
 }
 
 td {  
