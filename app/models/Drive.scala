@@ -8,7 +8,6 @@ case class DriveFile(
   output: String,
   outputPreview: String,
   outputDownload: String,
-  outputThumbnail: String,
   exportLinks: Map[String, String],
   customProperties: Map[String, String]
 ) {}
@@ -17,8 +16,8 @@ object DriveFile {
   implicit val format: Format[DriveFile] = Json.format
 }
 
-case class RawFileList(fileList: List[DriveFile]) {}
+case class DriveFileList(fileList: List[DriveFile]) {}
 
-object RawFileList {
-  implicit val format: Format[RawFileList] = Json.format
+object DriveFileList {
+  implicit val format: Format[DriveFileList] = Json.format
 }
