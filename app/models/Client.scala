@@ -1,8 +1,29 @@
 package models
 
-
 import enumeratum.{Enum, EnumEntry, PlayJsonEnum}
 import play.api.libs.json.{Format, Json}
+
+case class ResearchRecord(
+  id: String,
+  title: String,
+  team: String,
+  output: Output,
+  outputUrl: String,
+  outputThumbnail: String,
+  outputDownload: String,
+  //  outputExports: List[String],
+  okr: String,
+  year: Int,
+  quarter: Quarter,
+  //  objectives: String,
+  //  researchOwner: String, // TODO could this be an email???
+  tags: List[String], // TODO case class TAG
+  // TODO add Status
+)
+
+object ResearchRecord{
+  implicit val format: Format[ResearchRecord] = Json.format
+}
 
 sealed trait Quarter extends EnumEntry
 object Quarter extends Enum[Quarter] with PlayJsonEnum[Quarter] {
@@ -35,28 +56,4 @@ object Output extends Enum[Output] with PlayJsonEnum[Output] {
   case object UnsupportedDriveOutput extends Output
 }
 
-case class Tag(id: String)
 
-case class ResearchRecord(
-  id: String,
-  title: String,
-  team: String,
-  output: Output,
-  outputUrl: String,
-  outputThumbnail: String,
-  okr: String,
-  year: Int,
-  quarter: Quarter,
-//  objectives: String,
-//  researchOwner: String, // TODO could this be an email???
-  tags: List[String], // TODO case class TAG
-)
-object ResearchRecord{
-  implicit val format: Format[ResearchRecord] = Json.format
-}
-
-//case class ResearchRecordList(recordList: List[ResearchRecord]) {}
-//
-//object ResearchRecordList{
-//  implicit val format: Format[ResearchRecordList] = Json.format
-//}
