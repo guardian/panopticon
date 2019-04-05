@@ -72,7 +72,7 @@ object DriveService {
       okr = file.customProperties.getOrElse("okr", ""),
       year = file.customProperties.getOrElse("year", "0").toInt,
       quarter = setQuarter(file.customProperties.getOrElse("quarter", "Unknown Quarter")),
-      tags = setRandomTags(file.customProperties.getOrElse("tags", "No tags found")) // Generate Random Tags
+      tags = setRandomTags(file.customProperties.getOrElse("tags", "No tags found"))
     )
   }
 
@@ -84,6 +84,7 @@ object DriveService {
     s"https://drive.google.com/thumbnail?authuser=0&sz=w320&id=$id"
   }
 
+  // TODO temporary measure to hard gcode random tags
   def setRandomTags(str: String): List[Tag] = {
     str match {
       case "No tags found" => Tag.selectRandomTags()
