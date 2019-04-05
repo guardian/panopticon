@@ -17,7 +17,7 @@ case class ResearchRecord(
   quarter: Quarter,
   //  objectives: String,
   //  researchOwner: String, // TODO could this be an email???
-  tags: List[String], // TODO case class TAG
+  tags: List[Tag],
   // TODO add Status
 )
 
