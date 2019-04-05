@@ -9,10 +9,10 @@ import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.services.drive.model.File
 import com.google.api.services.drive.{DriveScopes, Drive => DriveClient}
-
 import models.Output.{Document, Presentation, Spreadsheet, UnknownDriveOutput, UnsupportedDriveOutput, Video}
 import models.Quarter.{Q1, Q2, Q3, Q4, UnknownQuarter}
 import models._
+
 
 object DriveService {
 
@@ -72,12 +72,23 @@ object DriveService {
       okr = file.customProperties.getOrElse("okr", ""),
       year = file.customProperties.getOrElse("year", "0").toInt,
       quarter = setQuarter(file.customProperties.getOrElse("quarter", "Unknown Quarter")),
-      tags = List("testtag") // Generate Random Tags
+      tags = setRandomTags(file.customProperties.getOrElse("tags", "No tags found")) // Generate Random Tags
     )
   }
 
   def convertToPreviewLink(str: String) = {
     str.replaceAll("edit", "preview")
+  }
+
+  def createThumbnailLink(id: String): String = {
+    s"https://drive.google.com/thumbnail?authuser=0&sz=w320&id=$id"
+  }
+
+  def setRandomTags(str: String): List[Tag] = {
+    str match {
+      case "No tags found" => Tag.selectRandomTags()
+      case _ => Nil
+    }
   }
 
   def setQuarter(str: String): Quarter = {
@@ -104,10 +115,6 @@ object DriveService {
       case "application/vnd.google-apps.unknown" => UnknownDriveOutput
       case _ => UnsupportedDriveOutput
     }
-  }
-
-  def createThumbnailLink(id: String): String = {
-    s"https://drive.google.com/thumbnail?authuser=0&sz=w320&id=$id"
   }
 
 }
