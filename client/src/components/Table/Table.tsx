@@ -9,22 +9,20 @@ interface ITableProps {
 interface IRowProps {
   title: string;
   output: string;
-  customProperties: {
-    okr: string;
-    team: string;
-    quarter: string;
-    year: string;
-  };
+  okr: string;
+  team: string;
+  quarter: string;
+  year: string;
 }
 
-const Row = ({ title, output, customProperties }: IRowProps) => (
+const Row = ({ title, output, okr, team, quarter, year }: IRowProps) => (
   <div className={styles.row} onClick={expandRow}>
     <div className={styles.cellTitle}>{title}</div>
     <div className={styles.cell}>{output}</div>
-    <div className={styles.cell}>"test"</div>
-    <div className={styles.cell}>"team"</div>
-    <div className={styles.cell}>"quarter"</div>
-    <div className={styles.cell}>"year"</div>
+    <div className={styles.cell}>{okr}</div>
+    <div className={styles.cell}>{team}</div>
+    <div className={styles.cell}>{quarter}</div>
+    <div className={styles.cell}>{year}</div>
   </div>
 );
 
@@ -51,7 +49,10 @@ class Table extends Component<ITableProps, {}> {
                 key={row.title}
                 title={row.title}
                 output={row.output}
-                customProperties={row.customProperties}
+                okr={row.okr}
+                team={row.team}
+                quarter={row.quarter}
+                year={row.year}
               />
             ))
           : null}
