@@ -1,4 +1,4 @@
-table {
+.table {
     color: #333;
     min-height: 100vh;
     border-collapse: collapse;
@@ -10,7 +10,8 @@ table {
     flex-wrap: nowrap;
     align-items: stretch;
     justify-content: flex-start;
-    align-content: stretch;
+    align-content: flex-start;
+    border: 1px solid pink;
 }
 
 .row {
@@ -18,12 +19,20 @@ table {
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: stretch;
-    justify-content: flex-start;
-    align-content: stretch;
+    justify-content: space-evenly;
+    align-content: flex-start;
+    border: 1px solid purple;
 }
 
 .cell {
-    flex: 0 1 auto;
+    border: 1px solid blue;
+    /* max-width: 14%; */
+    width:14%;
+  }
+
+  .cellTitle {
+    border: 1px solid blue;
+    width: 30%;
   }
 
 /* td, th {

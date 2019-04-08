@@ -18,37 +18,44 @@ interface IRowProps {
 }
 
 const Row = ({ title, output, customProperties }: IRowProps) => (
-  <div className={styles.row}>
-    <div className={styles.cell}>{title}</div>
+  <div className={styles.row} onClick={expandRow}>
+    <div className={styles.cellTitle}>{title}</div>
     <div className={styles.cell}>{output}</div>
-    <div className={styles.cell}>{customProperties.okr}</div>
-    <div className={styles.cell}>{customProperties.team}</div>
-    <div className={styles.cell}>{customProperties.quarter}</div>
-    <div className={styles.cell}>{customProperties.year}</div>
+    <div className={styles.cell}>"test"</div>
+    <div className={styles.cell}>"team"</div>
+    <div className={styles.cell}>"quarter"</div>
+    <div className={styles.cell}>"year"</div>
   </div>
 );
+
+const expandRow = (event) => {
+
+}
 
 class Table extends Component<ITableProps, {}> {
 
   render() {
     return (
-      <table className={styles.table}>
-        <div>
-          <div>
-            <div className={styles.row}>Title</div>
-            <div className={styles.row}>Output</div>
-            <div className={styles.row}>OKR</div>
-            <div className={styles.row}>Team</div>
-            <div className={styles.row}>Quarter</div>
-            <div className={styles.row}>Year</div>
-          </div>
-        </div>
+      <div className={styles.table}>
         <div className={styles.row}>
-          {this.props.researchRecords ? this.props.researchRecords.map(row => (
-            <Row key={row.title} title={row.title} output={row.output} customProperties={row.customProperties} />
-          )) : null}
+          <div className={styles.cellTitle}>Title</div>
+          <div className={styles.cell}>Output</div>
+          <div className={styles.cell}>OKR</div>
+          <div className={styles.cell}>Team</div>
+          <div className={styles.cell}>Quarter</div>
+          <div className={styles.cell}>Year</div>
         </div>
-      </table>
+        {this.props.researchRecords
+          ? this.props.researchRecords.map(row => (
+              <Row
+                key={row.title}
+                title={row.title}
+                output={row.output}
+                customProperties={row.customProperties}
+              />
+            ))
+          : null}
+      </div>
     );
   }
 }
