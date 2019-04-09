@@ -3,7 +3,7 @@ package controllers
 import javax.inject._
 import play.api.libs.json.Json
 import play.api.mvc._
-import services.{DriveService}
+import services.DriveService
 
 import scala.concurrent.ExecutionContext
 
@@ -14,18 +14,26 @@ import scala.concurrent.ExecutionContext
 @Singleton
 class DriveController @Inject()(cc: ControllerComponents)(implicit ec: ExecutionContext) extends AbstractController(cc) {
 
-    /**
-      * Create an Action to render an HTML page.
-      *
-      * The configuration in the `routes` file means that this method
-      * will be called when the application receives a `GET` request with
-      * a path of `/`.
-      */
+  /**
+    * Create an Action to render an HTML page.
+    *
+    * The configuration in the `routes` file means that this method
+    * will be called when the application receives a `GET` request with
+    * a path of `/`.
+    */
 
-    val url = "https://www.googleapis.com/drive/v3/teamdrives/0AEc1auC83s1rUk9PVA"
+  val url = "https://www.googleapis.com/drive/v3/teamdrives/0AEc1auC83s1rUk9PVA"
 
-    def getAllRecords = Action {
-        val fileList = DriveService.getAllRecords
-        Ok(Json.toJson(fileList))
-    }
+  def getAllRecords = Action {
+    val fileList = DriveService.getAllRecords
+    Ok(Json.toJson(fileList))
+  }
+
+  def action2 = Action {
+    val result = for {
+      googleFiles <- DriveService.getAllRecords2
+      rawFile <- DriveService.extractRawFile2() //traverse to convert googleFiles to file
+    } yield 1
+    Ok("")
+  }
 }

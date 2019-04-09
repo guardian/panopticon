@@ -37,17 +37,60 @@ object DriveService {
     request.execute().getFiles.asScala.toList
       .map(file =>
         // transformToResearchRecord(extractRawFile(file)) // define functions with def
-        (extractRawFile andThen transformToResearchRecord)(file) // define functions with val
+        (extractRawFile andThen transformToResearchRecord) (file) // define functions with val
+      )
+  }
+
+  def getAllRecords2: Either[String, List[File]] = {
+    val request = driveClient.files().list()
+      .setCorpora("teamDrive")
+      .setIncludeTeamDriveItems(true)
+      .setSupportsTeamDrives(true)
+      .setFields("*")
+      .setTeamDriveId(Config.teamDriveId)
+
+    Try(request.execute().getFiles.asScala.toList).toEither.left.map { exception =>
+      exception.getMessage
+    }
+  }
+
+  def test(s1: Email, s2: String): String = {
+    ???
+  }
+
+  val email = Email("")
+  val department = ""
+
+  case class Email(value: String) extends AnyVal
+
+  def extractRawFile2(fileStream: File): Either[String, DriveFile] = {
+    for {
+      customProps <- Option(fileStream.getExportLinks).map(_.asScala.toMap).toRight("No custom props")
+      exportLinks <- Option(fileStream.getExportLinks).map(_.asScala.toMap).toRight("No export links")
+    } yield DriveFile(
+      id = fileStream.getId,
+      title = fileStream.getName,
+      output = fileStream.getMimeType,
+      outputPreview = fileStream.getWebViewLink,
+      outputDownload = fileStream.getWebContentLink, // TODO - returning nulls
+      exportLinks = exportLinks,
+      customProperties = customProps
     )
   }
 
   val extractRawFile = (fileStream: File) => {
+
     val customProps = Try {
       fileStream.getProperties.asScala.toMap
-    }.toOption.getOrElse(Map.empty)
+    }.getOrElse(Map.empty)
     val exportLinks = Try {
       fileStream.getExportLinks.asScala.toMap
-    }.toOption.getOrElse(Map.empty)
+    }.getOrElse(Map.empty)
+
+    val exportLinks2 = Option(fileStream.getExportLinks).map(_.asScala.toMap)
+      .getOrElse(Map.empty)
+
+    val exportLinks3 = Option(fileStream.getExportLinks).fold(Map.empty[String, String])(_.asScala.toMap)
 
     DriveFile(
       id = fileStream.getId,
