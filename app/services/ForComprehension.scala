@@ -8,6 +8,7 @@ object ForComprehension {
   def square(num: Int): Int = {
     num * num
   }
+
   list.map(square)
 
   def listMap[A, B](list: List[A])(f: A => B): List[B] = {
@@ -18,8 +19,12 @@ object ForComprehension {
     }
   }
 
+  def mapWithFold2[A, B](aaas: List[A])(f: A => B): List[B] = {
+    foldRight[A, List[B]](Nil, aaas)(f(_) :: _)
+  }
+
   listMap(list)(square)
-  listMap(list){ i =>
+  listMap(list) { i =>
     i + 1
   }
 
@@ -45,11 +50,11 @@ object ForComprehension {
     }
   }
 
-  optionMap(Some(1)){ i =>
+  optionMap(Some(1)) { i =>
     i * 3
   }
 
-  val tmp = optionMap(Some("hello")){ s =>
+  val tmp = optionMap(Some("hello")) { s =>
     s.length
   }
 
@@ -63,6 +68,7 @@ object ForComprehension {
   // come back to futureMap!!
 
   case class User()
+
   def getUser(id: String): Option[User] = {
     ???
   }
@@ -96,8 +102,8 @@ object ForComprehension {
   }
 
   val strings = List("hello", "goodbye")
-  val characters: List[Int] = listFlatMap(strings){ str =>
-    listMap(str.toList){ char =>
+  val characters: List[Int] = listFlatMap(strings) { str =>
+    listMap(str.toList) { char =>
       char.toInt
     }
   }
@@ -108,4 +114,62 @@ object ForComprehension {
     char <- uppercaseStr.toList
     int = char.toInt // char.toInt returns an int, so the = assigns the int to a value
   } yield int
+
+  // traverse Swaps the two effects list <> try
+  def tryTraverse[A, B](aaas: List[A])(f: A => Try[B]): Try[List[B]] = {
+    foldRight[A, Try[List[B]]](Success(Nil), aaas) { (a, acc) =>
+      for {
+        bbbs <- acc // extracts from Try effect
+        b <- f(a) // extracts from Try effect
+      } yield b :: bbbs // yields the same effect in this case a Try
+    }
+  }
+
+  def eitherTraverse[L, A, B](aaas: List[A])(f: A => Either[L, B]): Either[L, List[B]] = {
+    foldRight[A, Either[L, List[B]]](Right(Nil), aaas) { (a, acc) =>
+      for {
+        bbbs <- acc // extracts from Try effect
+        b <- f(a) // extracts from Try effect
+      } yield b :: bbbs // yields the same effect in this case a Try
+    }
+  }
+
+  def foldLeft[A, B](acc: B, aaas: List[A])(f: (A, B) => B): B = {
+    aaas match {
+      case Nil => acc
+      case head :: tail => foldLeft(f(head, acc), tail)(f)
+    }
+  }
+
+  def foldRight[A, B](acc: B, aaas: List[A])(f: (A, B) => B): B = {
+    foldLeft(acc, aaas.reverse)(f)
+  }
+
+  //(n, acc) => acc + n ===> (_+_) !!!!!
+  def sum(list: List[Int]): Int = {
+    foldLeft(0, list)(_ + _)
+  }
+
+  def length[A](list: List[A]): Int = {
+    foldLeft(0, list)((_, acc) => acc + 1)
+  }
+
+  def mapWithFold[A, B](aaas: List[A])(f: A => B): List[B] = {
+    foldRight[A, List[B]](Nil, aaas) { (a, acc) =>
+      // acc ++ List(f(a)) - terrible performance
+      f(a) :: acc // excellent performance - list is optimized for ops on its head
+    }
+  }
+
+  def flatMapWithFold[A, B](aaas: List[A])(f: A => List[B]): List[B] = {
+    foldRight[A, List[B]](Nil, aaas) { (a, acc) =>
+      f(a) ++ acc
+    }
+  }
+
+  // look at optionFold
+
+  def test() = {
+    println(mapWithFold(List(1, 2, 3))(identity))
+  }
 }

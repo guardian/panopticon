@@ -4,6 +4,7 @@ import javax.inject._
 import play.api.libs.json.Json
 import play.api.mvc._
 import services.DriveService
+import services.ForComprehension.eitherTraverse
 
 import scala.concurrent.ExecutionContext
 
@@ -32,8 +33,11 @@ class DriveController @Inject()(cc: ControllerComponents)(implicit ec: Execution
   def action2 = Action {
     val result = for {
       googleFiles <- DriveService.getAllRecords2
-      rawFile <- DriveService.extractRawFile2() //traverse to convert googleFiles to file
-    } yield 1
-    Ok("")
+      driveFiles <- eitherTraverse(googleFiles)(DriveService.extractRawFile2) // replace with Cats
+    } yield driveFiles.map(DriveService.transformToResearchRecord)
+    result match {
+      case Left(error) => InternalServerError(error)
+      case Right(records) => Ok(Json.toJson(records))
+    }
   }
 }
