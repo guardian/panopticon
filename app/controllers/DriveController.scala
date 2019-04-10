@@ -4,8 +4,7 @@ import javax.inject._
 import play.api.libs.json.Json
 import play.api.mvc._
 import services.DriveService._
-import services.ForComprehension.eitherTraverse
-
+import cats.implicits._
 import scala.concurrent.ExecutionContext
 
 /**
@@ -23,10 +22,11 @@ class DriveController @Inject()(cc: ControllerComponents)(implicit ec: Execution
     * a path of `/`.
     */
 
+
   def getAllRecords = Action {
     val researchRecordList = for {
       apiFiles <- getAllApiFiles
-      driveFiles <- eitherTraverse(apiFiles)(extractFileData) // replace with Cats
+      driveFiles <- apiFiles.traverse(extractFileData)
     } yield driveFiles.map(transformToResearchRecord)
 
     researchRecordList match {

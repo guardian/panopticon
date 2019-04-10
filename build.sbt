@@ -7,6 +7,8 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 scalaVersion := "2.12.8"
 
+scalacOptions += "-Ypartial-unification"
+
 libraryDependencies ++= Seq(
   ws,
   ehcache, //https://www.playframework.com/documentation/2.7.x/JavaWS#Adding-WS-to-project
@@ -14,8 +16,9 @@ libraryDependencies ++= Seq(
   "com.google.api-client" % "google-api-client" % "1.28.0",
   "com.google.apis" % "google-api-services-drive" % "v3-rev157-1.25.0",
   "org.scalatestplus.play" %% "scalatestplus-play" % "4.0.1" % Test,
+  "org.scalatest" %% "scalatest" % "3.0.5" % Test,
   "com.beachape" %% "enumeratum-play-json" % "1.5.16",
-  "org.scalatest" %% "scalatest" % "3.0.5" % Test
+  "org.typelevel" %% "cats-core" % "1.6.0"
 )
 
 // Adds additional packages into Twirl
