@@ -26,7 +26,7 @@ object DriveService {
   lazy val driveClient: DriveClient = new DriveClient.Builder(httpTransport, jacksonFactory, scopedCredential)
     .build()
 
-  def getAllRecords: List[ResearchRecord] = {
+  def getAllApiFiles: Either[String, List[File]] = {
     val request = driveClient.files().list()
       .setCorpora("teamDrive")
       .setIncludeTeamDriveItems(true)
@@ -34,22 +34,16 @@ object DriveService {
       .setFields("*")
       .setTeamDriveId(Config.teamDriveId)
 
-    request.execute().getFiles.asScala.toList
-      .map(file =>
-        // transformToResearchRecord(extractRawFile(file)) // define functions with def
-        (extractRawFile andThen transformToResearchRecord)(file) // define functions with val
-    )
+    Try(request.execute().getFiles.asScala.toList).toEither.left.map { exception =>
+      exception.getMessage
+    }
   }
 
-  val extractRawFile = (fileStream: File) => {
-    val customProps = Try {
-      fileStream.getProperties.asScala.toMap
-    }.toOption.getOrElse(Map.empty)
-    val exportLinks = Try {
-      fileStream.getExportLinks.asScala.toMap
-    }.toOption.getOrElse(Map.empty)
-
-    DriveFile(
+  def extractFileData(fileStream: File): Either[String, DriveFile] = {
+    for {
+      customProps <- Option(fileStream.getExportLinks).map(_.asScala.toMap).toRight("No custom props")
+      exportLinks <- Option(fileStream.getExportLinks).map(_.asScala.toMap).toRight("No export links")
+    } yield DriveFile(
       id = fileStream.getId,
       title = fileStream.getName,
       output = fileStream.getMimeType,
@@ -60,7 +54,7 @@ object DriveService {
     )
   }
 
-  val transformToResearchRecord = (file: DriveFile) => {
+  def transformToResearchRecord(file: DriveFile): ResearchRecord = {
     ResearchRecord.apply(
       id = file.id,
       title = file.title,
