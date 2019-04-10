@@ -3,7 +3,8 @@ import styles from "./App.module.css";
 import Table from "../Table/Table";
 import Header from "../Header/Header";
 import { getAllRecords } from "../../services/getAllRecords";
-import { DriveFileList } from "../../types/DriveModel";
+import { DriveFileList } from "../../types/DriveModel"
+import TagFilter from "../TagFilter/TagFilter";
 
 interface IAppState {
   driveFileList: DriveFileList | null;
@@ -31,6 +32,7 @@ class App extends Component<{}, IAppState> {
     return (
       <div>
         <Header />
+        <TagFilter />
         <Table records={this.state.driveFileList} />
       </div>
     );
