@@ -68,7 +68,7 @@ object DriveService {
       output = setOutputType(file.output),
       outputUrl = convertToPreviewLink(file.outputPreview),
       outputThumbnail = createThumbnailLink(file.id),
-      outputDownload = file.outputDownload, // TODO returning null - permissions issue?
+      outputDownload = Option(file.outputDownload), // TODO returning null - permissions issue?
       okr = file.customProperties.getOrElse("okr", ""),
       year = file.customProperties.getOrElse("year", "0").toInt,
       quarter = setQuarter(file.customProperties.getOrElse("quarter", "Unknown Quarter")),

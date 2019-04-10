@@ -10,7 +10,7 @@ case class ResearchRecord(
   output: Output,
   outputUrl: String,
   outputThumbnail: String,
-  outputDownload: String,
+  outputDownload: Option[String],
   //  outputExports: List[String],
   okr: String,
   year: Int,
