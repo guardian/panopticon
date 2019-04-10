@@ -6,6 +6,7 @@ export interface IDriveFile {
   team: string;
   quarter: string;
   year: string;
+  tags: string[];
 }
 
 export type DriveFileList = Array<IDriveFile>;
