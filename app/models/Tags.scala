@@ -15,7 +15,7 @@ object Tag extends Enum[Tag] with PlayJsonEnum[Tag] {
   case object Checkout extends Tag
   case object Contributions extends Tag
   case object Europe extends Tag
-  case object testtag extends Tag
+  case object Testtag extends Tag
 
   // this function will be removed once we're able to add tags to Drive data
   def selectRandomTags(): List[Tag] = {
