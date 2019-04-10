@@ -1,16 +1,16 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import styles from "./Table.module.css";
-import { DriveFileList } from "../../types/DriveModel";
+import { DriveFileList, IDriveFile } from "../../types/DriveModel";
 
 interface ITableProps {
-  researchRecords: DriveFileList
+  records: DriveFileList;
 }
 
 interface ITableState {
-  expandedRows: Array<String>
+  expandedRows: Array<String>;
 }
 
-interface IRowProps {
+interface ITableRowProps {
   id: string;
   title: string;
   output: string;
@@ -18,14 +18,32 @@ interface IRowProps {
   team: string;
   quarter: string;
   year: string;
-  expandRow: (id:string) => void;
-  className: string;
+  handleExpandRow: (id: string) => void;
 }
 
-const Row = ({ id, title, output, okr, team, quarter, year, expandRow, className }: IRowProps) => (
-  <div className={className} onClick={(event:React.MouseEvent<HTMLDivElement>) => {
-    expandRow(id)
-  }}>
+const HeaderRow = (props: React.HTMLProps<HTMLDivElement>) => (
+  <div {...props}>
+    <div className={styles.cellTitle}>Title</div>
+    <div className={styles.cell}>Output</div>
+    <div className={styles.cell}>OKR</div>
+    <div className={styles.cell}>Team</div>
+    <div className={styles.cell}>Quarter</div>
+    <div className={styles.cell}>Year</div>
+  </div>
+);
+
+const Row = ({
+  id,
+  title,
+  output,
+  okr,
+  team,
+  quarter,
+  year,
+  handleExpandRow,
+  ...props
+}: React.HTMLProps<HTMLDivElement> & ITableRowProps) => (
+  <div {...props} onClick={e => handleExpandRow(id)}>
     <div className={styles.cellTitle}>{title}</div>
     <div className={styles.cell}>{output}</div>
     <div className={styles.cell}>{okr}</div>
@@ -35,54 +53,45 @@ const Row = ({ id, title, output, okr, team, quarter, year, expandRow, className
   </div>
 );
 
-class Table extends Component<ITableProps, ITableState> {
-  constructor(props: ITableProps) {
-    super(props);
-    this.state = {
-      expandedRows: []
-    }
-  }
+const RowExpanded = ({
+  id,
+  ...props
+}: React.HTMLProps<HTMLDivElement> & { id: string }) => <div {...props} />;
 
-  expandRow = (id:string) => {
-    this.setState((prevState) => {
-        if(prevState.expandedRows.includes(id)) {
-           return {expandedRows: []}
-        } else {
-           return {expandedRows: [id]}
-      };
-    });
-  }
+const Table = ({ records }: ITableProps) => {
+  const [expanded, setExpanded] = useState([]);
 
-  render() {
-    return (
-      <div className={styles.table}>
-        <div className={styles.row}>
-          <div className={styles.cellTitle}>Title</div>
-          <div className={styles.cell}>Output</div>
-          <div className={styles.cell}>OKR</div>
-          <div className={styles.cell}>Team</div>
-          <div className={styles.cell}>Quarter</div>
-          <div className={styles.cell}>Year</div>
-        </div>
-        {this.props.researchRecords
-          ? this.props.researchRecords.map(row => (
+  const expandRowHandler = (id: string) => {
+    expanded.includes(id) ? setExpanded([]) : setExpanded([id]);
+  };
+
+  return (
+    <div className={styles.container}>
+      <HeaderRow className={styles.header} />
+
+      <div className={styles.containerScroll}>
+        {records &&
+          records.map(record => (
+            <div key={record.id} className={styles.containerExpandedRow}>
               <Row
-                key={row.id}
-                id={row.id}
-                title={row.title}
-                output={row.output}
-                okr={row.okr}
-                team={row.team}
-                quarter={row.quarter}
-                year={row.year}
-                expandRow={this.expandRow}
-                className={this.state.expandedRows.includes(row.id) ? styles.newRow : styles.row}
+                className={styles.row}
+                handleExpandRow={expandRowHandler}
+                id={record.id}
+                title={record.title}
+                output={record.output}
+                okr={record.okr}
+                team={record.team}
+                year={record.year}
+                quarter={record.quarter}
               />
-            ))
-          : null}
+              {expanded.includes(record.id) && (
+                <RowExpanded className={styles.rowExpanded} id={record.id} />
+              )}
+            </div>
+          ))}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Table;
