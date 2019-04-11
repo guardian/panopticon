@@ -2,10 +2,15 @@ import React, { Component } from "react";
 import styles from "./TagFilter.module.css";
 
 interface ITagFilterProps {
+  selectedTag: string
 }
 
 interface ITagListProps {
-  tagList: string[]
+  tagList: string[];
+}
+
+interface ITagButtonProps {
+  selectTag: (tagName: string) => void;
 }
 
 interface ITagFilterState {
@@ -22,8 +27,13 @@ const TagList = ({ tagList }: ITagListProps) => (
 )
 
 const TagButton = (tagName: string) => (
-  <button>{tagName}</button>
+  <button onClick={(event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    console.log(tagName);
+  }}>{tagName}</button>
 )
+
+
 
 class TagFilter extends Component<ITagFilterProps, ITagFilterState> {
   constructor(props: ITagFilterProps) {
@@ -32,11 +42,17 @@ class TagFilter extends Component<ITagFilterProps, ITagFilterState> {
     }
   }
 
+  selectTag = (tagName: string) => {
+    this.setState((state: ITagFilterState): ITagFilterState => {
+      return { selectedTag: tagName };
+    });
+  };
+
   render() {
     return (
       <div>
         <Header />
-        <TagList tagList={["tag1", "tag2"]} />
+        <TagList tagList={["Contributions", "GDPR"]} />
       </div>
     );
   }

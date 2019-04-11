@@ -7,24 +7,24 @@ import { DriveFileList } from "../../types/DriveModel"
 import TagFilter from "../TagFilter/TagFilter";
 
 interface IAppState {
-  driveFileList: DriveFileList | null;
+  driveFileList: DriveFileList | null
+  selectedTag: string | null
 }
 
 class App extends Component<{}, IAppState> {
   constructor(props: {}) {
     super(props);
     this.state = {
-      driveFileList: null
-    };
+      driveFileList: null,
+      selectedTag: null,
+    }
   }
 
   componentDidMount() {
     getAllRecords().then(value => {
-      this.setState(
-        (state: IAppState): IAppState => {
-          return { driveFileList: value };
-        }
-      );
+      this.setState((state: IAppState): IAppState => {
+        return { driveFileList: value, selectedTag: "Europe" };
+      });
     });
   }
 
@@ -32,7 +32,7 @@ class App extends Component<{}, IAppState> {
     return (
       <div>
         <Header />
-        <TagFilter />
+        <TagFilter selectedTag={this.state.selectedTag} />
         <Table records={this.state.driveFileList} />
       </div>
     );
