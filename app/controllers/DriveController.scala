@@ -4,7 +4,6 @@ import javax.inject._
 import play.api.libs.json.Json
 import play.api.mvc._
 import services.DriveService._
-import cats.implicits._
 import scala.concurrent.ExecutionContext
 
 /**
@@ -26,7 +25,7 @@ class DriveController @Inject()(cc: ControllerComponents)(implicit ec: Execution
   def getAllRecords = Action {
     val researchRecordList = for {
       apiFiles <- getAllApiFiles
-      driveFiles <- apiFiles.traverse(extractFileData)
+      driveFiles = apiFiles.map(extractFileData)
     } yield driveFiles.map(transformToResearchRecord)
 
     researchRecordList match {

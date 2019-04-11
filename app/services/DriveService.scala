@@ -39,8 +39,8 @@ object DriveService {
     }
   }
 
-  def extractFileData(fileStream: File): Either[String, DriveFile] = {
-    Right(DriveFile(
+  def extractFileData(fileStream: File): DriveFile = {
+    DriveFile(
       id = fileStream.getId,
       title = fileStream.getName,
       output = fileStream.getMimeType,
@@ -48,7 +48,7 @@ object DriveService {
       outputDownload = fileStream.getWebContentLink, // TODO - returning nulls
       exportLinks = Option(fileStream.getExportLinks).map(_.asScala.toMap).getOrElse(Map.empty),
       customProperties = Option(fileStream.getProperties).map(_.asScala.toMap).getOrElse(Map.empty)
-    ))
+    )
   }
 
   def transformToResearchRecord(file: DriveFile): ResearchRecord = {
