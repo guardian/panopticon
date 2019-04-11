@@ -24,6 +24,15 @@ class App extends Component<{}, IAppState> {
     };
   }
 
+  clearTags = () => {
+    const { driveFileList } = this.state
+    this.setState(
+      (prevState: IAppState): IAppState => {
+        return { ...prevState, tableFileList: driveFileList }
+      }
+    )
+  }
+
   setSelectedTag = (tagName: string) => {
     this.setState(
       (prevState: IAppState): IAppState => {
@@ -74,7 +83,9 @@ class App extends Component<{}, IAppState> {
     return (
       <div>
         <Header />
-        <TagFilter setSelectedTag={this.setSelectedTag} />
+        <TagFilter
+          clearTags={this.clearTags}
+          setSelectedTag={this.setSelectedTag} />
         <Table
           handleColumnSort={this.handleColumnSort}
           records={this.state.tableFileList}

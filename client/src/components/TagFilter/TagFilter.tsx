@@ -3,6 +3,7 @@ import styles from "./TagFilter.module.css";
 
 interface ITagFilterProps {
   setSelectedTag: (tagName: string) => void
+  clearTags: () => void
 }
 
 const Header = () => (
@@ -19,13 +20,18 @@ const TagButton = (tagName: string, setSelectedTag: (tagName: string) => void) =
 class TagFilter extends Component<ITagFilterProps, {}> {
 
   render() {
-    const { setSelectedTag } = this.props
+    const { setSelectedTag, clearTags } = this.props
     const tags = ["Europe", "GDPR", "Contributions", "Accessibility", "Podcast", "Navigation", "Testtag", "Atoms", "Checkout", "Payment"]
     return (
       <div>
         <Header />
         <div>
-          {tags.map(tag => TagButton(tag, setSelectedTag))}
+          <button key="clear" onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+            clearTags()
+          }}>Clear all tags</button>
+          <div>
+            {tags.map(tag => TagButton(tag, setSelectedTag))}
+          </div>
         </div>
       </div>
     );
