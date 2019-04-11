@@ -2,23 +2,22 @@ package models
 
 import play.api.libs.json.{Format, Json}
 
-case class File(
+case class DriveFile(
   id: String,
   title: String,
   output: String,
   outputPreview: String,
   outputDownload: String,
-  outputThumbnail: String,
   exportLinks: Map[String, String],
   customProperties: Map[String, String]
 ) {}
 
-object File {
-  implicit val format: Format[File] = Json.format
+object DriveFile {
+  implicit val format: Format[DriveFile] = Json.format
 }
 
-case class FileList(fileList: List[File]) {}
+case class DriveFileList(fileList: List[DriveFile]) {}
 
-object FileList {
-  implicit val format: Format[FileList] = Json.format
+object DriveFileList {
+  implicit val format: Format[DriveFileList] = Json.format
 }
