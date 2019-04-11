@@ -8,6 +8,7 @@ import TagFilter from "../TagFilter/TagFilter";
 
 interface IAppState {
   driveFileList: DriveFileList | null
+  tableFileList: DriveFileList | null
   selectedTag: string | null
 }
 
@@ -16,6 +17,7 @@ class App extends Component<{}, IAppState> {
     super(props);
     this.state = {
       driveFileList: null,
+      tableFileList: null,
       selectedTag: null,
     }
   }
@@ -23,13 +25,24 @@ class App extends Component<{}, IAppState> {
   setSelectedTag = (tagName: string) => {
     this.setState((prevState: IAppState): IAppState => {
       return { ...prevState, selectedTag: tagName };
+    }, () => {
+      this.filterFiles(this.state.selectedTag, this.state.driveFileList)
     });
   };
+
+  filterFiles = (selectedTag: string, driveFileList: DriveFileList) => {
+    const filteredFiles = driveFileList.filter(driveFile => driveFile.tags.includes(selectedTag))
+
+    this.setState((prevState: IAppState): IAppState => {
+      return { ...prevState, tableFileList: filteredFiles }
+    })
+
+  }
 
   componentDidMount() {
     getAllRecords().then(value => {
       this.setState((prevState: IAppState): IAppState => {
-        return { ...prevState, driveFileList: value };
+        return { ...prevState, driveFileList: value, tableFileList: value };
       });
     });
   }
@@ -39,7 +52,7 @@ class App extends Component<{}, IAppState> {
       <div>
         <Header />
         <TagFilter setSelectedTag={this.setSelectedTag} />
-        <Table records={this.state.driveFileList} />
+        <Table records={this.state.tableFileList} />
       </div>
     );
   }

@@ -12,22 +12,20 @@ const Header = () => (
 const TagButton = (tagName: string, setSelectedTag: (tagName: string) => void) => (
   <button key={tagName} onClick={(event: React.MouseEvent<HTMLButtonElement>
   ) => {
-    console.log(tagName);
     setSelectedTag(tagName)
   }}>{tagName}</button>
 )
-
-
 
 class TagFilter extends Component<ITagFilterProps, {}> {
 
   render() {
     const { setSelectedTag } = this.props
+    const tags = ["Europe", "GDPR", "Contributions", "Accessibility", "Podcast", "Navigation", "Testtag", "Atoms", "Checkout", "Payment"]
     return (
       <div>
         <Header />
         <div>
-          {["Europe", "GDPR"].map(tag => TagButton(tag, setSelectedTag))}
+          {tags.map(tag => TagButton(tag, setSelectedTag))}
         </div>
       </div>
     );
