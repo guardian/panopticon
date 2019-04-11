@@ -40,18 +40,15 @@ object DriveService {
   }
 
   def extractFileData(fileStream: File): Either[String, DriveFile] = {
-    for {
-      customProps <- Option(fileStream.getExportLinks).map(_.asScala.toMap).toRight("No custom props")
-      exportLinks <- Option(fileStream.getExportLinks).map(_.asScala.toMap).toRight("No export links")
-    } yield DriveFile(
+    Right(DriveFile(
       id = fileStream.getId,
       title = fileStream.getName,
       output = fileStream.getMimeType,
       outputPreview = fileStream.getWebViewLink,
       outputDownload = fileStream.getWebContentLink, // TODO - returning nulls
-      exportLinks = exportLinks,
-      customProperties = customProps
-    )
+      exportLinks = Option(fileStream.getExportLinks).map(_.asScala.toMap).getOrElse(Map.empty),
+      customProperties = Option(fileStream.getProperties).map(_.asScala.toMap).getOrElse(Map.empty)
+    ))
   }
 
   def transformToResearchRecord(file: DriveFile): ResearchRecord = {
