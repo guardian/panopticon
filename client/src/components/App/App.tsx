@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styles from "./App.module.css";
 import Table from "../Table/Table";
+import Header from "../Header/Header";
 import { getAllRecords } from "../../services/getAllRecords";
 import { DriveFileList } from "../../types/DriveModel";
 
@@ -29,6 +30,7 @@ class App extends Component<{}, IAppState> {
   render() {
     return (
       <div>
+        <Header />
         <Table records={this.state.driveFileList} />
       </div>
     );
