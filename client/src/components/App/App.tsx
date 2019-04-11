@@ -20,10 +20,16 @@ class App extends Component<{}, IAppState> {
     }
   }
 
+  setSelectedTag = (tagName: string) => {
+    this.setState((prevState: IAppState): IAppState => {
+      return { ...prevState, selectedTag: tagName };
+    });
+  };
+
   componentDidMount() {
     getAllRecords().then(value => {
-      this.setState((state: IAppState): IAppState => {
-        return { driveFileList: value, selectedTag: "Europe" };
+      this.setState((prevState: IAppState): IAppState => {
+        return { ...prevState, driveFileList: value };
       });
     });
   }
@@ -32,7 +38,7 @@ class App extends Component<{}, IAppState> {
     return (
       <div>
         <Header />
-        <TagFilter selectedTag={this.state.selectedTag} />
+        <TagFilter setSelectedTag={this.setSelectedTag} />
         <Table records={this.state.driveFileList} />
       </div>
     );
