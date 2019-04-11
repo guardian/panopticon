@@ -18,6 +18,7 @@ interface ITableRowProps {
   team: string;
   quarter: string;
   year: string;
+  tags: string[];
   handleExpandRow: (id: string) => void;
 }
 
@@ -29,6 +30,7 @@ const HeaderRow = (props: React.HTMLProps<HTMLDivElement>) => (
     <div className={styles.cell}>Team</div>
     <div className={styles.cell}>Quarter</div>
     <div className={styles.cell}>Year</div>
+    <div className={styles.cell}>Tags</div>
   </div>
 );
 
@@ -40,18 +42,20 @@ const Row = ({
   team,
   quarter,
   year,
+  tags,
   handleExpandRow,
   ...props
 }: React.HTMLProps<HTMLDivElement> & ITableRowProps) => (
-  <div {...props} onClick={e => handleExpandRow(id)}>
-    <div className={styles.cellTitle}>{title}</div>
-    <div className={styles.cell}>{output}</div>
-    <div className={styles.cell}>{okr}</div>
-    <div className={styles.cell}>{team}</div>
-    <div className={styles.cell}>{quarter}</div>
-    <div className={styles.cell}>{year}</div>
-  </div>
-);
+    <div {...props} onClick={e => handleExpandRow(id)}>
+      <div className={styles.cellTitle}>{title}</div>
+      <div className={styles.cell}>{output}</div>
+      <div className={styles.cell}>{okr}</div>
+      <div className={styles.cell}>{team}</div>
+      <div className={styles.cell}>{quarter}</div>
+      <div className={styles.cell}>{year}</div>
+      <div className={styles.cell}>{tags[0]}, {tags[1]}</div>
+    </div>
+  );
 
 const RowExpanded = ({
   id,
@@ -83,6 +87,7 @@ const Table = ({ records }: ITableProps) => {
                 team={record.team}
                 year={record.year}
                 quarter={record.quarter}
+                tags={record.tags}
               />
               {expanded.includes(record.id) && (
                 <RowExpanded className={styles.rowExpanded} id={record.id} />
