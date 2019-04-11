@@ -31,7 +31,7 @@ class App extends Component<{}, IAppState> {
     return (
       <div>
         <Header />
-        <Table researchRecords={this.state.driveFileList} />
+        <Table records={this.state.driveFileList} />
       </div>
     );
   }

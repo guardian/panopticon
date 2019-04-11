@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styles from "./Header.module.css";
-import logo from '../../images/panopticonLogo.png';
+import logo from '../../images/panopticonLogoBlue.png';
 
 class Header extends React.Component {
 
