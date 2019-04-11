@@ -1,0 +1,42 @@
+.header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  align-items: stretch;
+  align-content: flex-start;
+  background-color: lightgray;
+  padding: 0.5rem 0;
+  padding-right: 20px;
+  border-radius: 3px 3px 0 0;
+}
+
+button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+button:hover {
+  background-color: lightsteelblue;
+}
+button:active {
+  background-color: teal;
+}
+
+.buttonSort {
+  margin: 0.2rem 0;
+}
+
+/* TODO how to avoid duplication with Table css? */
+.cell {
+  width: 10%;
+  text-align: start;
+}
+
+.cellTitle {
+  width: 30%;
+}

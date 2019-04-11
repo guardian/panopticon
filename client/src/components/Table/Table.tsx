@@ -1,15 +1,13 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import styles from "./Table.module.css";
-import { DriveFileList, IDriveFile } from "../../types/DriveModel";
+import { DriveFileList } from "../../types/DriveModel";
+import { SortDirection, TableColumn } from "../../types/AppModel";
+import HeaderRow from "./HeaderRow/HeaderRow";
 
 interface ITableProps {
   records: DriveFileList;
+  handleColumnSort: (column: TableColumn, direction: SortDirection) => void;
 }
-
-interface ITableState {
-  expandedRows: Array<String>;
-}
-
 interface ITableRowProps {
   id: string;
   title: string;
@@ -21,18 +19,6 @@ interface ITableRowProps {
   tags: string[];
   handleExpandRow: (id: string) => void;
 }
-
-const HeaderRow = (props: React.HTMLProps<HTMLDivElement>) => (
-  <div {...props}>
-    <div className={styles.cellTitle}>Title</div>
-    <div className={styles.cell}>Output</div>
-    <div className={styles.cell}>OKR</div>
-    <div className={styles.cell}>Team</div>
-    <div className={styles.cell}>Quarter</div>
-    <div className={styles.cell}>Year</div>
-    <div className={styles.cell}>Tags</div>
-  </div>
-);
 
 const Row = ({
   id,
@@ -53,16 +39,19 @@ const Row = ({
       <div className={styles.cell}>{team}</div>
       <div className={styles.cell}>{quarter}</div>
       <div className={styles.cell}>{year}</div>
-      <div className={styles.cell}>{tags[0]}, {tags[1]}</div>
+      <div className={styles.cell}>
+        {tags[0]}, {tags[1]}
+      </div>
     </div>
   );
 
+// TODO - add all the things inside
 const RowExpanded = ({
   id,
   ...props
 }: React.HTMLProps<HTMLDivElement> & { id: string }) => <div {...props} />;
 
-const Table = ({ records }: ITableProps) => {
+const Table = ({ records, handleColumnSort }: ITableProps) => {
   const [expanded, setExpanded] = useState([]);
 
   const expandRowHandler = (id: string) => {
@@ -71,7 +60,7 @@ const Table = ({ records }: ITableProps) => {
 
   return (
     <div className={styles.container}>
-      <HeaderRow className={styles.header} />
+      <HeaderRow handleColumnSort={handleColumnSort} />
 
       <div className={styles.containerScroll}>
         {records &&

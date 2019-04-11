@@ -11,19 +11,9 @@
   text-align: center;
 }
 
-.header {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-evenly;
-  align-items: stretch;
-  align-content: flex-start;
-  background-color: lightgray;
-  padding: 1rem 0.2rem;
-}
-
 .containerScroll {
   overflow-y: scroll;
-  height: 85vh;
+  max-height: 60vh;
 }
 
 .containerExpandedRow {
@@ -39,17 +29,18 @@
   justify-content: space-evenly;
   align-items: stretch;
   align-content: flex-start;
-  padding: 0.5rem 0.2rem;
-}
-
-.cell {
-  width: 10%;
-}
-
-.cellTitle {
-  width: 30%;
+  padding: 0.5rem 0;
 }
 
 .rowExpanded {
   min-height: 10rem;
+}
+
+.cell {
+  width: 10%;
+  text-align: start;
+}
+
+.cellTitle {
+  width: 30%;
 }
