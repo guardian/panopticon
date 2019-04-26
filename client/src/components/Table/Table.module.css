@@ -30,7 +30,21 @@
   align-items: stretch;
   align-content: flex-start;
   padding: 0.5rem 0;
+
+}
+
+.row a {
+  font-weight: bold;
+  color: #121212;
   cursor: pointer;
+}
+
+.row a:hover {
+  background-color: yellow;
+}
+
+.row a:visited, a:active {
+  color: #767676;
 }
 
 .rowExpanded {
@@ -45,3 +59,4 @@
 .cellTitle {
   width: 30%;
 }
+

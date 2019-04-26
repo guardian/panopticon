@@ -12,6 +12,8 @@ interface ITableRowProps {
   id: string;
   title: string;
   output: string;
+  outputIcon: string;
+  outputUrl: string;
   okr: string;
   team: string;
   quarter: string;
@@ -24,6 +26,8 @@ const Row = ({
   id,
   title,
   output,
+  outputIcon,
+  outputUrl,
   okr,
   team,
   quarter,
@@ -33,8 +37,12 @@ const Row = ({
   ...props
 }: React.HTMLProps<HTMLDivElement> & ITableRowProps) => (
     <div {...props} onClick={e => handleExpandRow(id)}>
-      <div className={styles.cellTitle}>{title}</div>
-      <div className={styles.cell}>{output}</div>
+      <div className={styles.cellTitle}>
+        <a href={outputUrl} title="Preview Link in new tab" target="_blank" rel="noopener noreferrer">{title}</a>
+      </div>
+      <div className={styles.cell}>
+        <img src={outputIcon} alt={`Google Drive ${output}`} />
+      </div>
       <div className={styles.cell}>{okr}</div>
       <div className={styles.cell}>{team}</div>
       <div className={styles.cell}>{quarter}</div>
@@ -72,15 +80,17 @@ const Table = ({ records, handleColumnSort }: ITableProps) => {
                 id={record.id}
                 title={record.title}
                 output={record.output}
+                outputIcon={record.outputIcon}
+                outputUrl={record.outputUrl}
                 okr={record.okr}
                 team={record.team}
                 year={record.year}
                 quarter={record.quarter}
                 tags={record.tags}
               />
-              {expanded.includes(record.id) && (
+              {/* {expanded.includes(record.id) && (
                 <RowExpanded className={styles.rowExpanded} id={record.id} />
-              )}
+              )} */}
             </div>
           ))}
       </div>

@@ -2,6 +2,8 @@ export interface IDriveFile {
   id: string;
   title: string;
   output: string;
+  outputIcon: string;
+  outputUrl: string;
   okr: string;
   team: string;
   quarter: string;
