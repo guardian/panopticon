@@ -8,6 +8,7 @@ case class DriveFile(
   output: String,
   outputPreview: String,
   outputDownload: String,
+  outputIcon: String,
   exportLinks: Map[String, String],
   customProperties: Map[String, String]
 ) {}

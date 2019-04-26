@@ -44,6 +44,7 @@ object DriveService {
       id = fileStream.getId,
       title = fileStream.getName,
       output = fileStream.getMimeType,
+      outputIcon = fileStream.getIconLink,
       outputPreview = fileStream.getWebViewLink,
       outputDownload = fileStream.getWebContentLink, // TODO - returning nulls
       exportLinks = Option(fileStream.getExportLinks).map(_.asScala.toMap).getOrElse(Map.empty),
@@ -57,6 +58,7 @@ object DriveService {
       title = file.title,
       team = file.customProperties.getOrElse("team", "Unknown Team"),
       output = setOutputType(file.output),
+      outputIcon = file.outputIcon,
       outputUrl = convertToPreviewLink(file.outputPreview),
       outputThumbnail = createThumbnailLink(file.id),
       outputDownload = Option(file.outputDownload), // TODO returning null - permissions issue?

@@ -9,6 +9,7 @@ case class ResearchRecord(
   team: String,
   output: Output,
   outputUrl: String,
+  outputIcon: String,
   outputThumbnail: String,
   outputDownload: Option[String],
   //  outputExports: List[String],
