@@ -1,4 +1,10 @@
-# Scala Play React-Typescript Starter
+# Running the project locally
+- Clone the repo
+- `cd panopticon`
+- `./sbt run`
+- The React frontend running on port 3000 will open automatically in the browser.
+
+## Scala Play React-Typescript Starter
 
 This starter was built based on Yohan Gomez's [React with Play Framework 2.7.x blogpost tutorial](https://blog.usejournal.com/react-with-play-framework-2-6-x-a6e15c0b7bd)
 
@@ -6,12 +12,12 @@ Find his original source code and documentation at [Scala Play React Seed](https
 
 Scala Play framework web application with frontend via Create React App with Typescript, with integrated development workflow.
 
-## Version Summary
+### Version Summary
 
 - [Play Framework: 2.7.0](https://www.playframework.com/documentation/2.7.x/Home)
 - [React: 16.8.5](https://reactjs.org/)
 
-### Scripts
+#### Scripts
 
 - Used any of the following [SBT](http://www.scala-sbt.org/) commands which will intern trigger frontend associated npm scripts.
 
